@@ -2,11 +2,24 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Features() {
+  const [isMobile, setIsMobile] = useState(false);
+
   // Add gradient background directly to document body
   useEffect(() => {
+    // Check if we're on mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Initial check
+    checkMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+
     document.body.style.background = 'linear-gradient(45deg, #FF7700, #FFA200, #FF5100, #FFBD00, #FF9500, #FF6E00)';
     document.body.style.backgroundSize = '400% 400%';
     document.body.style.animation = 'gradientBG 15s ease infinite';
@@ -29,11 +42,37 @@ export default function Features() {
         overflow-x: hidden;
       }
       @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .panel {
+          flex-direction: row !important;
+          flex-wrap: wrap !important;
+        }
+        .panel-image {
+          min-width: 120px !important;
+          height: 120px !important;
+          margin-right: 16px !important;
+        }
+        .panel-content {
+          flex: 1 !important;
+          min-width: 150px !important;
+        }
+        .panel-content h2 {
+          font-size: 24px !important;
+          margin-bottom: 8px !important;
+        }
+        .panel-content p {
+          font-size: 16px !important;
+          line-height: 1.4 !important;
+        }
+      }
     `;
     document.head.appendChild(style);
     
     return () => {
       document.head.removeChild(style);
+      window.removeEventListener('resize', checkMobile);
     };
   }, []);
 
@@ -52,9 +91,11 @@ export default function Features() {
         width: '100%',
         maxWidth: '900px',
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: isMobile ? 'center' : 'space-between',
         alignItems: 'center',
-        marginBottom: '40px',
+        marginBottom: '30px',
+        flexWrap: isMobile ? 'wrap' : 'nowrap',
+        gap: isMobile ? '20px' : '0'
       }}>
         <Link href="/" style={{
           color: 'white',
@@ -66,6 +107,7 @@ export default function Features() {
           backgroundColor: 'rgba(0, 0, 0, 0.2)',
           padding: '8px 16px',
           borderRadius: '8px',
+          order: isMobile ? 2 : 1
         }}>
           <span style={{ marginRight: '8px' }}>←</span> Back
         </Link>
@@ -73,13 +115,14 @@ export default function Features() {
         <Image 
           src="/status.svg" 
           alt="Status Logo" 
-          width={200} 
-          height={66} 
+          width={isMobile ? 150 : 200}
+          height={isMobile ? 50 : 66}
           priority
           style={{ 
             filter: 'drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3))',
             maxWidth: '100%',
-            height: 'auto'
+            height: 'auto',
+            order: isMobile ? 1 : 2
           }}
         />
       </div>
@@ -90,25 +133,25 @@ export default function Features() {
         maxWidth: '900px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '40px',
+        gap: '25px',
       }}>
         {/* Panel 1 */}
-        <div style={{
+        <div className="panel" style={{
           backgroundColor: 'rgba(0, 0, 0, 0.2)',
           borderRadius: '16px',
-          padding: '24px',
+          padding: isMobile ? '16px' : '24px',
           backdropFilter: 'blur(8px)',
           WebkitBackdropFilter: 'blur(8px)',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
-          gap: '24px',
+          gap: isMobile ? '16px' : '24px',
           transition: 'transform 0.3s ease',
         }}>
           {/* Image Container */}
-          <div style={{
-            minWidth: '200px',
-            height: '200px',
+          <div className="panel-image" style={{
+            minWidth: isMobile ? '120px' : '200px',
+            height: isMobile ? '120px' : '200px',
             position: 'relative',
             borderRadius: '12px',
             overflow: 'hidden',
@@ -126,12 +169,12 @@ export default function Features() {
           </div>
           
           {/* Text Content */}
-          <div>
+          <div className="panel-content">
             <h2 style={{
               margin: '0 0 16px 0',
               color: 'white',
               fontFamily: "'VT323', monospace",
-              fontSize: '32px',
+              fontSize: isMobile ? '24px' : '32px',
               letterSpacing: '1px',
             }}>
               Global Connectivity
@@ -140,35 +183,34 @@ export default function Features() {
               margin: '0',
               color: 'rgba(255, 255, 255, 0.8)',
               fontFamily: "'VT323', monospace",
-              fontSize: '18px',
-              lineHeight: '1.6',
+              fontSize: isMobile ? '16px' : '18px',
+              lineHeight: isMobile ? '1.4' : '1.6',
               letterSpacing: '0.5px',
             }}>
               Connect with users from around the world with our cutting-edge platform. 
               Experience seamless communication across borders, with lightning-fast response times 
-              and unparalleled security. Our decentralized infrastructure ensures your data remains 
-              private and protected at all times.
+              and unparalleled security.
             </p>
           </div>
         </div>
         
         {/* Panel 2 */}
-        <div style={{
+        <div className="panel" style={{
           backgroundColor: 'rgba(0, 0, 0, 0.2)',
           borderRadius: '16px',
-          padding: '24px',
+          padding: isMobile ? '16px' : '24px',
           backdropFilter: 'blur(8px)',
           WebkitBackdropFilter: 'blur(8px)',
           display: 'flex',
-          flexDirection: 'row-reverse',
+          flexDirection: isMobile ? 'row' : 'row-reverse',
           alignItems: 'center',
-          gap: '24px',
+          gap: isMobile ? '16px' : '24px',
           transition: 'transform 0.3s ease',
         }}>
           {/* Image Container */}
-          <div style={{
-            minWidth: '200px',
-            height: '200px',
+          <div className="panel-image" style={{
+            minWidth: isMobile ? '120px' : '200px',
+            height: isMobile ? '120px' : '200px',
             position: 'relative',
             borderRadius: '12px',
             overflow: 'hidden',
@@ -186,12 +228,12 @@ export default function Features() {
           </div>
           
           {/* Text Content */}
-          <div>
+          <div className="panel-content">
             <h2 style={{
               margin: '0 0 16px 0',
               color: 'white',
               fontFamily: "'VT323', monospace",
-              fontSize: '32px',
+              fontSize: isMobile ? '24px' : '32px',
               letterSpacing: '1px',
             }}>
               Advanced Encryption
@@ -200,14 +242,13 @@ export default function Features() {
               margin: '0',
               color: 'rgba(255, 255, 255, 0.8)',
               fontFamily: "'VT323', monospace",
-              fontSize: '18px',
-              lineHeight: '1.6',
+              fontSize: isMobile ? '16px' : '18px',
+              lineHeight: isMobile ? '1.4' : '1.6',
               letterSpacing: '0.5px',
             }}>
               Our state-of-the-art encryption technology ensures your files and communications 
               are always secure. With end-to-end encryption and zero-knowledge architecture, 
-              your privacy is guaranteed. Share files of any size without compromising on 
-              security or speed.
+              your privacy is guaranteed.
             </p>
           </div>
         </div>
@@ -215,7 +256,7 @@ export default function Features() {
       
       {/* Navigation links to more pages */}
       <div style={{
-        marginTop: '40px',
+        marginTop: '30px',
         display: 'flex',
         gap: '16px',
       }}>
