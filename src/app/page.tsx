@@ -151,7 +151,7 @@ export default function Home() {
         )}
         
         {/* Link to features page */}
-        <div style={{ marginTop: '30px' }}>
+        <div style={{ marginTop: '30px', width: '100%', textAlign: 'center' }}>
           <Link href="/features" style={{
             color: 'white',
             textDecoration: 'none',
@@ -160,7 +160,11 @@ export default function Home() {
             backgroundColor: 'rgba(0, 0, 0, 0.2)',
             padding: '8px 16px',
             borderRadius: '8px',
-            display: 'inline-block'
+            display: 'inline-block',
+            maxWidth: '100%',
+            boxSizing: 'border-box',
+            textAlign: 'center',
+            width: 'auto'
           }}>
             Explore Features
           </Link>

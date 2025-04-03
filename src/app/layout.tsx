@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Orange Crystal",
+  title: "BitYorkCity",
   description: "Animated Orange Crystal with Gradient Background",
 };
 
