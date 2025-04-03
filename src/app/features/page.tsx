@@ -281,10 +281,10 @@ export default function Features() {
               borderRadius: '12px',
               overflow: 'hidden',
             }}
-            onClick={() => openModal('/globe.svg', 'Global Network')}
+            onClick={() => openModal('/bitmap.svg', 'Global Connectivity')}
           >
             <Image
-              src="/globe.svg"
+              src="/bitmap.svg"
               alt="Global Network"
               fill
               style={{
