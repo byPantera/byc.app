@@ -1,22 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BYC App
+
+A modern web application featuring a beautiful gradient background, pixel font styling, and a sleek UI.
+
+## Features
+
+- Animated orange gradient background
+- Clean, minimalist design
+- Email submission form with automatic submission on Enter
+- Features page with modern panels
+- Futuristic pixel font styling
+- Responsive design
+
+## Pages
+
+- Home Page: Email collection with automatic form submission
+- Features Page: Showcase of app capabilities with modern UI panels
+
+## Technologies Used
+
+- Next.js
+- React
+- TypeScript
+- CSS-in-JS styling
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
