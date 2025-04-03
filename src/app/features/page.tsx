@@ -46,25 +46,27 @@ export default function Features() {
       /* Responsive styles */
       @media (max-width: 768px) {
         .panel {
-          flex-direction: row !important;
-          flex-wrap: wrap !important;
+          flex-direction: column !important;
+          flex-wrap: nowrap !important;
         }
         .panel-image {
-          min-width: 120px !important;
-          height: 120px !important;
-          margin-right: 16px !important;
+          min-width: 100% !important;
+          height: 160px !important;
+          margin-right: 0 !important;
+          margin-bottom: 16px !important;
         }
         .panel-content {
-          flex: 1 !important;
-          min-width: 150px !important;
+          width: 100% !important;
         }
         .panel-content h2 {
           font-size: 24px !important;
           margin-bottom: 8px !important;
+          text-align: center !important;
         }
         .panel-content p {
           font-size: 16px !important;
           line-height: 1.4 !important;
+          text-align: center !important;
         }
       }
     `;
@@ -202,7 +204,7 @@ export default function Features() {
           backdropFilter: 'blur(8px)',
           WebkitBackdropFilter: 'blur(8px)',
           display: 'flex',
-          flexDirection: isMobile ? 'row' : 'row-reverse',
+          flexDirection: isMobile ? 'column' : 'row-reverse',
           alignItems: 'center',
           gap: isMobile ? '16px' : '24px',
           transition: 'transform 0.3s ease',
