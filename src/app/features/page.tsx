@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 
 export default function Features() {
   const [isMobile, setIsMobile] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalImage, setModalImage] = useState('');
+  const [modalAlt, setModalAlt] = useState('');
 
   // Add gradient background directly to document body
   useEffect(() => {
@@ -69,6 +72,112 @@ export default function Features() {
           text-align: center !important;
         }
       }
+      
+      /* Image interaction styles */
+      .image-container {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .image-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+      
+      .image-container:active {
+        transform: scale(0.98);
+      }
+      
+      /* Modal styles */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .modal-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .modal-content {
+        position: relative;
+        width: 90%;
+        max-width: 800px;
+        height: auto;
+        max-height: 90vh;
+        transform: scale(0.8);
+        transition: transform 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .modal-overlay.open .modal-content {
+        transform: scale(1);
+      }
+      
+      .modal-image-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      
+      .modal-image {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+      }
+      
+      .modal-close {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+      
+      .modal-close:hover {
+        background: rgba(255, 70, 0, 0.8);
+        transform: scale(1.1);
+      }
+      
+      .modal-caption {
+        margin-top: 16px;
+        color: white;
+        font-family: 'VT323', monospace;
+        font-size: 24px;
+        text-align: center;
+      }
     `;
     document.head.appendChild(style);
     
@@ -77,6 +186,18 @@ export default function Features() {
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
+  
+  const openModal = (src: string, alt: string) => {
+    setModalImage(src);
+    setModalAlt(alt);
+    setModalOpen(true);
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+  };
+  
+  const closeModal = () => {
+    setModalOpen(false);
+    document.body.style.overflow = 'auto'; // Re-enable scrolling
+  };
 
   return (
     <main style={{ 
@@ -151,13 +272,17 @@ export default function Features() {
           transition: 'transform 0.3s ease',
         }}>
           {/* Image Container */}
-          <div className="panel-image" style={{
-            minWidth: isMobile ? '120px' : '200px',
-            height: isMobile ? '120px' : '200px',
-            position: 'relative',
-            borderRadius: '12px',
-            overflow: 'hidden',
-          }}>
+          <div 
+            className="panel-image image-container" 
+            style={{
+              minWidth: isMobile ? '120px' : '200px',
+              height: isMobile ? '120px' : '200px',
+              position: 'relative',
+              borderRadius: '12px',
+              overflow: 'hidden',
+            }}
+            onClick={() => openModal('/globe.svg', 'Global Network')}
+          >
             <Image
               src="/globe.svg"
               alt="Global Network"
@@ -210,13 +335,17 @@ export default function Features() {
           transition: 'transform 0.3s ease',
         }}>
           {/* Image Container */}
-          <div className="panel-image" style={{
-            minWidth: isMobile ? '120px' : '200px',
-            height: isMobile ? '120px' : '200px',
-            position: 'relative',
-            borderRadius: '12px',
-            overflow: 'hidden',
-          }}>
+          <div 
+            className="panel-image image-container" 
+            style={{
+              minWidth: isMobile ? '120px' : '200px',
+              height: isMobile ? '120px' : '200px',
+              position: 'relative',
+              borderRadius: '12px',
+              overflow: 'hidden',
+            }}
+            onClick={() => openModal('/file.svg', 'Advanced Encryption')}
+          >
             <Image
               src="/file.svg"
               alt="File Sharing"
@@ -273,6 +402,24 @@ export default function Features() {
         }}>
           Home
         </Link>
+      </div>
+      
+      {/* Modal for enlarged images */}
+      <div 
+        className={`modal-overlay ${modalOpen ? 'open' : ''}`} 
+        onClick={closeModal}
+      >
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={closeModal}>×</button>
+          <div className="modal-image-container">
+            <img 
+              src={modalImage} 
+              alt={modalAlt} 
+              className="modal-image"
+            />
+          </div>
+          <div className="modal-caption">{modalAlt}</div>
+        </div>
       </div>
     </main>
   );
