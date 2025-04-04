@@ -141,59 +141,34 @@ export default function About() {
       position: 'relative',
       padding: '40px 20px',
     }}>
-      {/* Navigation menu at top right */}
-      <div style={{
-        position: 'absolute',
-        top: '20px',
-        right: '20px',
-        zIndex: 10,
-        display: 'flex',
-        alignItems: 'center'
-      }}>
-        <Link href="/" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
-          Home
-        </Link>
-        <Link href="/features" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
-          Explore
-        </Link>
-        <Link href="https://bityork-city.gitbook.io/bityork-city-docs" target="_blank" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
-          Docs
-        </Link>
-      </div>
+      {/* Navigation menu at top right - REMOVED */}
       
-      {/* Header with Logo */}
+      {/* Header with Logo and Back Button */}
       <div style={{
         width: '100%',
         maxWidth: '900px',
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: isMobile ? 'center' : 'space-between',
         alignItems: 'center',
         marginBottom: '40px',
+        flexWrap: isMobile ? 'wrap' : 'nowrap',
+        gap: isMobile ? '20px' : '0'
       }}>
+        <Link href="/" style={{
+          color: 'white',
+          textDecoration: 'none',
+          fontFamily: "'VT323', monospace",
+          fontSize: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          order: isMobile ? 2 : 1
+        }}>
+          <span style={{ marginRight: '8px' }}>←</span> Back
+        </Link>
+        
         <Image 
           src="/status.svg" 
           alt="BitYork City Logo" 
@@ -203,7 +178,8 @@ export default function About() {
           style={{ 
             filter: 'drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3))',
             maxWidth: '100%',
-            height: 'auto'
+            height: 'auto',
+            order: isMobile ? 1 : 2
           }}
         />
       </div>

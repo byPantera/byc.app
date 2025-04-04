@@ -245,50 +245,6 @@ export default function Features() {
       position: 'relative',
       padding: '40px 20px',
     }}>
-      {/* Navigation menu at top right */}
-      <div style={{
-        position: 'absolute',
-        top: '20px',
-        right: '20px',
-        zIndex: 10,
-        display: 'flex',
-        alignItems: 'center'
-      }}>
-        <Link href="/" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
-          Home
-        </Link>
-        <Link href="/about" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
-          About
-        </Link>
-        <Link href="https://bityork-city.gitbook.io/bityork-city-docs" target="_blank" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
-          Docs
-        </Link>
-      </div>
-      
       {/* Header with Logo and Back Button */}
       <div style={{
         width: '100%',
