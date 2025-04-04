@@ -131,7 +131,7 @@ export default function Features() {
       
       /* Mobile menu button */
       .menu-button {
-        display: none;
+        display: none; /* Keep it hidden on mobile */
         position: fixed;
         top: 20px;
         right: 20px;
@@ -179,7 +179,7 @@ export default function Features() {
 
       @media (max-width: 768px) {
         .menu-button {
-          display: flex;
+          display: none; /* Keep it hidden on mobile */
         }
         
         .navigation-menu {
