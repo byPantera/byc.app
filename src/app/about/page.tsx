@@ -68,6 +68,9 @@ export default function About() {
           line-height: 1.4 !important;
           text-align: center !important;
         }
+        .navigation-links {
+          display: none !important;
+        }
       }
       
       /* Explore button animations */
