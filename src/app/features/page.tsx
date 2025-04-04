@@ -73,6 +73,41 @@ export default function Features() {
         }
       }
       
+      /* Explore button animations */
+      .explore-button {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        z-index: 1;
+      }
+      
+      .explore-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: rgba(255, 119, 0, 0.4);
+        transition: all 0.3s ease;
+        z-index: -1;
+        border-radius: 8px;
+      }
+      
+      .explore-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+        letter-spacing: 1.5px;
+      }
+      
+      .explore-button:hover:before {
+        width: 100%;
+      }
+      
+      .explore-button:active {
+        transform: translateY(0);
+      }
+      
       /* Image interaction styles */
       .image-container {
         position: relative;
@@ -209,6 +244,30 @@ export default function Features() {
       position: 'relative',
       padding: '40px 20px',
     }}>
+      {/* Navigation menu at top right */}
+      <div style={{
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        zIndex: 10
+      }}>
+        <Link href="/" className="explore-button" style={{
+          color: 'white',
+          textDecoration: 'none',
+          fontFamily: "'VT323', monospace",
+          fontSize: '18px',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          display: 'inline-block',
+          textAlign: 'center',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)'
+        }}>
+          Home
+        </Link>
+      </div>
+      
       {/* Header with Logo and Back Button */}
       <div style={{
         width: '100%',
@@ -391,7 +450,7 @@ export default function Features() {
         display: 'flex',
         gap: '16px',
       }}>
-        <Link href="/" style={{
+        <Link href="/" className="explore-button" style={{
           color: 'white',
           textDecoration: 'none',
           fontFamily: "'VT323', monospace",

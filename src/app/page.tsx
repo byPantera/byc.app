@@ -33,6 +33,41 @@ export default function Home() {
         overflow: hidden;
       }
       @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+      
+      /* Explore button animations */
+      .explore-button {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        z-index: 1;
+      }
+      
+      .explore-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background: rgba(255, 119, 0, 0.4);
+        transition: all 0.3s ease;
+        z-index: -1;
+        border-radius: 8px;
+      }
+      
+      .explore-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+        letter-spacing: 1.5px;
+      }
+      
+      .explore-button:hover:before {
+        width: 100%;
+      }
+      
+      .explore-button:active {
+        transform: translateY(0);
+      }
     `;
     document.head.appendChild(style);
     
@@ -74,6 +109,30 @@ export default function Home() {
       justifyContent: 'center',
       position: 'relative',
     }}>
+      {/* Navigation menu at top right */}
+      <div style={{
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        zIndex: 10
+      }}>
+        <Link href="/features" className="explore-button" style={{
+          color: 'white',
+          textDecoration: 'none',
+          fontFamily: "'VT323', monospace",
+          fontSize: '18px',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          padding: '8px 16px',
+          borderRadius: '8px',
+          display: 'inline-block',
+          textAlign: 'center',
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)'
+        }}>
+          Explore
+        </Link>
+      </div>
+      
       {/* Content container */}
       <div style={{
         width: '100%',
@@ -149,30 +208,6 @@ export default function Home() {
             </div>
           </div>
         )}
-        
-        {/* Link to features page */}
-        <div style={{ 
-          marginTop: '30px', 
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
-          <Link href="/features" style={{
-            color: 'white',
-            textDecoration: 'none',
-            fontFamily: "'VT323', monospace",
-            fontSize: '18px',
-            backgroundColor: 'rgba(0, 0, 0, 0.2)',
-            padding: '8px 16px',
-            borderRadius: '8px',
-            display: 'inline-block',
-            textAlign: 'center',
-            minWidth: '120px',
-            maxWidth: '100%'
-          }}>
-            Explore Features
-          </Link>
-        </div>
       </div>
     </main>
   );
