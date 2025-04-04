@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from 'react';
 export default function About() {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userClosedMenu, setUserClosedMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Add gradient background directly to document body
@@ -129,12 +130,12 @@ export default function About() {
       .menu-button {
         display: none;
         position: fixed;
-        bottom: 20px;
+        top: 20px;
         right: 20px;
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.3);
         border: none;
         z-index: 100;
         cursor: pointer;
@@ -142,20 +143,27 @@ export default function About() {
         align-items: center;
         flex-direction: column;
         padding: 0;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+      }
+
+      .menu-button:hover {
+        background: rgba(0, 0, 0, 0.4);
       }
 
       .menu-button span {
         display: block;
-        width: 24px;
+        width: 20px;
         height: 2px;
         background: white;
-        margin: 3px 0;
+        margin: 2px 0;
         transition: all 0.3s ease;
       }
 
       .menu-button.open span:nth-child(1) {
-        transform: rotate(45deg) translate(5px, 5px);
+        transform: rotate(45deg) translate(4px, 4px);
       }
 
       .menu-button.open span:nth-child(2) {
@@ -163,7 +171,7 @@ export default function About() {
       }
 
       .menu-button.open span:nth-child(3) {
-        transform: rotate(-45deg) translate(5px, -5px);
+        transform: rotate(-45deg) translate(4px, -4px);
       }
 
       @media (max-width: 768px) {
@@ -175,16 +183,19 @@ export default function About() {
           position: fixed;
           top: 0;
           right: -100%;
-          width: 200px;
+          width: 25%; /* Reduced to 1/4 of screen width */
           height: 100vh;
-          background: rgba(0, 0, 0, 0.8);
-          backdrop-filter: blur(5px);
+          background: rgba(0, 0, 0, 0.85);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          transition: right 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
           z-index: 99;
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .navigation-menu.open {
@@ -194,8 +205,31 @@ export default function About() {
         .navigation-menu a {
           margin: 15px 0;
           display: block;
-          width: 100%;
+          width: auto;
+          padding: 10px 20px;
           text-align: center;
+          font-size: 20px;
+          transform: translateY(20px);
+          opacity: 0;
+          transition: all 0.4s ease;
+          transition-delay: 0s;
+        }
+        
+        .navigation-menu.open a {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        
+        .navigation-menu.open a:nth-child(1) {
+          transition-delay: 0.1s;
+        }
+        
+        .navigation-menu.open a:nth-child(2) {
+          transition-delay: 0.2s;
+        }
+        
+        .navigation-menu.open a:nth-child(3) {
+          transition-delay: 0.3s;
         }
       }
     `;
@@ -217,6 +251,46 @@ export default function About() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // Auto-close menu after delay
+  useEffect(() => {
+    let closeTimer: NodeJS.Timeout;
+    
+    if (menuOpen && menuRef.current) {
+      // Set initial timer for auto-close
+      closeTimer = setTimeout(() => {
+        // Only close if user didn't manually close it
+        if (!userClosedMenu) {
+          setMenuOpen(false);
+        }
+      }, 3000);
+    }
+    
+    return () => {
+      if (closeTimer) clearTimeout(closeTimer);
+    };
+  }, [menuOpen, userClosedMenu]);
+
+  // When userClosedMenu changes, reset it after a delay
+  useEffect(() => {
+    if (userClosedMenu) {
+      const timer = setTimeout(() => {
+        setUserClosedMenu(false);
+      }, 5000); // Longer cooldown period
+      return () => clearTimeout(timer);
+    }
+  }, [userClosedMenu]);
+
+  // Handle menu button click
+  const handleMenuButtonClick = () => {
+    if (menuOpen) {
+      // When closing, prevent immediate reopening on hover
+      setMenuOpen(false);
+      setUserClosedMenu(true);
+    } else {
+      setMenuOpen(true);
+    }
+  };
 
   // Handle link click in mobile menu
   const handleLinkClick = () => {
@@ -297,7 +371,7 @@ export default function About() {
       {/* Mobile menu button */}
       <button 
         className={`menu-button ${menuOpen ? 'open' : ''}`}
-        onClick={() => setMenuOpen(!menuOpen)}
+        onClick={handleMenuButtonClick}
         aria-label="Toggle menu"
       >
         <span></span>
