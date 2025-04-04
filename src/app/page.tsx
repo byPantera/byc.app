@@ -119,6 +119,17 @@ export default function Home() {
         display: 'flex',
         alignItems: 'center'
       }}>
+        <Link href="/about" className="explore-button" style={{
+          color: 'white',
+          textDecoration: 'none',
+          fontFamily: "'VT323', monospace",
+          fontSize: '18px',
+          padding: '8px 12px',
+          display: 'inline-block',
+          textAlign: 'center'
+        }}>
+          About
+        </Link>
         <Link href="/features" className="explore-button" style={{
           color: 'white',
           textDecoration: 'none',
