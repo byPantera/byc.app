@@ -1,16 +1,30 @@
 "use client"
 
 import Image from 'next/image';
-import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Add gradient background directly to document body
   useEffect(() => {
+    // Check if we're on mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Initial check
+    checkMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile);
+
     document.body.style.background = 'linear-gradient(45deg, #FF7700, #FFA200, #FF5100, #FFBD00, #FF9500, #FF6E00)';
     document.body.style.backgroundSize = '400% 400%';
     document.body.style.animation = 'gradientBG 15s ease infinite';
@@ -69,13 +83,106 @@ export default function Home() {
       .explore-button:active {
         transform: translateY(0);
       }
+
+      /* Mobile menu button */
+      .menu-button {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        z-index: 100;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .menu-button span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: white;
+        margin: 3px 0;
+        transition: all 0.3s ease;
+      }
+
+      .menu-button.open span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .menu-button.open span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-button.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      @media (max-width: 768px) {
+        .menu-button {
+          display: flex;
+        }
+        
+        .navigation-menu {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 200px;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(5px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          transition: right 0.3s ease;
+          z-index: 99;
+        }
+        
+        .navigation-menu.open {
+          right: 0;
+        }
+        
+        .navigation-menu a {
+          margin: 15px 0;
+          display: block;
+          width: 100%;
+          text-align: center;
+        }
+      }
     `;
     document.head.appendChild(style);
     
+    // Add click outside listener to close menu
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+
+    // Add event listener
+    document.addEventListener('mousedown', handleClickOutside);
+    
     return () => {
       document.head.removeChild(style);
+      window.removeEventListener('resize', checkMobile);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  // Handle link click in mobile menu
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setMenuOpen(false);
+    }
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -110,49 +217,85 @@ export default function Home() {
       justifyContent: 'center',
       position: 'relative',
     }}>
-      {/* Navigation menu at top right */}
-      <div style={{
-        position: 'absolute',
-        top: '20px',
-        right: '20px',
-        zIndex: 10,
-        display: 'flex',
-        alignItems: 'center'
-      }}>
-        <Link href="/about" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
+      {/* Navigation menu */}
+      <div 
+        ref={menuRef}
+        className={`navigation-menu ${menuOpen ? 'open' : ''}`} 
+        style={{
+          position: isMobile ? 'fixed' : 'absolute',
+          top: isMobile ? '0' : '20px',
+          right: isMobile ? (menuOpen ? '0' : '-100%') : '20px',
+          zIndex: 10,
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: 'center',
+          padding: isMobile ? '40px 20px' : 0
+        }}
+      >
+        <Link 
+          href="/about" 
+          className="explore-button" 
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            fontFamily: "'VT323', monospace",
+            fontSize: '18px',
+            padding: '8px 12px',
+            display: 'inline-block',
+            textAlign: 'center',
+            margin: isMobile ? '10px 0' : '0 0 0 20px'
+          }}
+          onClick={handleLinkClick}
+        >
           About
         </Link>
-        <Link href="/features" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
+        <Link 
+          href="/features" 
+          className="explore-button" 
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            fontFamily: "'VT323', monospace",
+            fontSize: '18px',
+            padding: '8px 12px',
+            display: 'inline-block',
+            textAlign: 'center',
+            margin: isMobile ? '10px 0' : '0 0 0 20px'
+          }}
+          onClick={handleLinkClick}
+        >
           Explore
         </Link>
-        <Link href="https://bityork-city.gitbook.io/bityork-city-docs" target="_blank" className="explore-button" style={{
-          color: 'white',
-          textDecoration: 'none',
-          fontFamily: "'VT323', monospace",
-          fontSize: '18px',
-          padding: '8px 12px',
-          display: 'inline-block',
-          textAlign: 'center'
-        }}>
+        <Link 
+          href="https://bityork-city.gitbook.io/bityork-city-docs" 
+          target="_blank" 
+          className="explore-button" 
+          style={{
+            color: 'white',
+            textDecoration: 'none',
+            fontFamily: "'VT323', monospace",
+            fontSize: '18px',
+            padding: '8px 12px',
+            display: 'inline-block',
+            textAlign: 'center',
+            margin: isMobile ? '10px 0' : '0 0 0 20px'
+          }}
+          onClick={handleLinkClick}
+        >
           Docs
         </Link>
       </div>
+      
+      {/* Mobile menu button */}
+      <button 
+        className={`menu-button ${menuOpen ? 'open' : ''}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       
       {/* Content container */}
       <div style={{
