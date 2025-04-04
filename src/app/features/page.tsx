@@ -446,11 +446,13 @@ export default function Features() {
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <button className="modal-close" onClick={closeModal}>×</button>
           <div className="modal-image-container">
-            <img 
-              src={modalImage} 
-              alt={modalAlt} 
-              className="modal-image"
-            />
+            {modalImage && (
+              <img 
+                src={modalImage} 
+                alt={modalAlt} 
+                className="modal-image"
+              />
+            )}
           </div>
           <div className="modal-caption">{modalAlt}</div>
         </div>
