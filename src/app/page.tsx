@@ -40,6 +40,7 @@ export default function Home() {
         overflow: hidden;
         transition: all 0.3s ease;
         z-index: 1;
+        margin-left: 20px;
       }
       
       .explore-button:before {
@@ -52,12 +53,12 @@ export default function Home() {
         background: rgba(255, 119, 0, 0.4);
         transition: all 0.3s ease;
         z-index: -1;
-        border-radius: 8px;
+        border-radius: 4px;
       }
       
       .explore-button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+        text-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         letter-spacing: 1.5px;
       }
       
@@ -114,22 +115,31 @@ export default function Home() {
         position: 'absolute',
         top: '20px',
         right: '20px',
-        zIndex: 10
+        zIndex: 10,
+        display: 'flex',
+        alignItems: 'center'
       }}>
         <Link href="/features" className="explore-button" style={{
           color: 'white',
           textDecoration: 'none',
           fontFamily: "'VT323', monospace",
           fontSize: '18px',
-          backgroundColor: 'rgba(0, 0, 0, 0.2)',
-          padding: '8px 16px',
-          borderRadius: '8px',
+          padding: '8px 12px',
           display: 'inline-block',
-          textAlign: 'center',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)'
+          textAlign: 'center'
         }}>
           Explore
+        </Link>
+        <Link href="https://bityork-city.gitbook.io/bityork-city-docs" target="_blank" className="explore-button" style={{
+          color: 'white',
+          textDecoration: 'none',
+          fontFamily: "'VT323', monospace",
+          fontSize: '18px',
+          padding: '8px 12px',
+          display: 'inline-block',
+          textAlign: 'center'
+        }}>
+          Docs
         </Link>
       </div>
       
