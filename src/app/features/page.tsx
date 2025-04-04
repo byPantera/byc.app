@@ -450,10 +450,12 @@ export default function Features() {
           <button className="modal-close" onClick={closeModal}>×</button>
           <div className="modal-image-container">
             {modalImage && (
-              <img 
-                src={modalImage} 
-                alt={modalAlt} 
+              <Image 
+                src={modalImage}
+                alt={modalAlt}
+                fill
                 className="modal-image"
+                style={{ objectFit: 'contain', padding: '20px' }}
               />
             )}
           </div>

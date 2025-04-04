@@ -252,8 +252,8 @@ export default function About() {
             }}>
               BitYork City is a revolutionary digital platform built on cutting-edge technology. 
               Our mission is to create a seamless experience for users worldwide, combining beautiful 
-              design with powerful functionality. Founded in 2025, we're committed to pushing the 
-              boundaries of what's possible in web development and user experience.
+              design with powerful functionality. Founded in 2025, we&apos;re committed to pushing the 
+              boundaries of what&apos;s possible in web development and user experience.
             </p>
           </div>
         </div>
