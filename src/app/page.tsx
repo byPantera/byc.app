@@ -458,7 +458,7 @@ export default function Home() {
             WebkitBackdropFilter: 'blur(8px)'
           }}>
             <div style={{ textAlign: 'center', padding: '16px' }}>
-              <p style={{ color: 'white', fontSize: '24px', fontWeight: 500 }}>Thank you for subscribing!</p>
+              <p style={{ color: 'white', fontSize: '24px', fontWeight: 500, fontFamily: "'VT323', monospace", letterSpacing: '1px' }}>Thank you for subscribing!</p>
             </div>
           </div>
         )}

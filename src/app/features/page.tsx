@@ -493,6 +493,7 @@ export default function Features() {
         className={`menu-button ${menuOpen ? 'open' : ''}`}
         onClick={handleMenuButtonClick}
         aria-label="Toggle menu"
+        style={{ display: menuOpen ? 'none' : 'flex' }}
       >
         <span></span>
         <span></span>
